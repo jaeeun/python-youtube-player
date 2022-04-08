@@ -8,6 +8,10 @@ from tkinter import messagebox
 import tkinter as tk
 import emoji
 import unicodedata
+import platform
+
+my_platform = str(platform.system())
+
 
 title_list=[]
 mix_list=[]
@@ -127,7 +131,12 @@ def get_pl(url):
 
         if ("var ytInitialData = " in str(search_results)):
             str1 = search_results.strip().split('var ytInitialData = ')[1].split(';</script>')[0]
-            j1 = json.loads(str1, encoding='utf8', strict=False)
+            
+            if(my_platform=="Windows"):
+                j1 = json.loads(str1, encoding='utf8', strict=False)
+            elif(my_platform=="Darwin"):
+                str1 = str1.encode("utf-8")
+                j1 = json.loads(str1)
 
             try:
                 print("try 1")
@@ -154,7 +163,12 @@ def get_pl(url):
                     if ("var ytInitialData = " in str(search_results)):
 
                         str1 = search_results.strip().split('var ytInitialData = ')[1].split(';</script>')[0]
-                        j1 = json.loads(str1, encoding='utf8', strict=False)
+                        if(my_platform=="Windows"):
+                            j1 = json.loads(str1, encoding='utf8', strict=False)
+                        elif(my_platform=="Darwin"):
+                            str1 = str1.encode("utf-8")
+                            j1 = json.loads(str1)
+
                         titleList, toGet = ytpl_parse(j1)
                     
                         return titleList, toGet
