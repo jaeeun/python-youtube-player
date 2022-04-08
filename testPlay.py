@@ -5,6 +5,7 @@ from urllib.error import URLError
 from urllib.parse import urlparse, parse_qs
 from bs4 import BeautifulSoup
 from tkinter import messagebox
+import tkinter as tk
 import emoji
 import unicodedata
 
@@ -178,7 +179,7 @@ def openReal(yturl):
         mix_list = mix_list + mix_list1
         max_song=len(mix_list)
         num=len(mix_list1)
-        messagebox.showinfo("안내", "성공적으로 %s개의 곡을 추가하였습니다"%(str(num)))
+        #messagebox.showinfo("안내", "성공적으로 %s개의 곡을 추가하였습니다"%(str(num)))
 
 
 address = 'https://www.youtube.com/playlist?list=PL4fGSI1pDJn6jXS_Tv_N9B8Z0HTRVJE0m'
@@ -190,6 +191,7 @@ print("end openReal")
 vlc_instance = vlc.Instance('--verbose -1')
 player = vlc_instance.media_player_new()
 player.audio_set_volume(50)
+player.stop()
 
 my_event_manger = player.event_manager()
 my_event_manger.event_attach(vlc.EventType.MediaPlayerEndReached, media_finish)
@@ -207,8 +209,12 @@ print(source)
 
 
 player.set_media(media)
-time.sleep(0.5)
+time.sleep(1)
 player.play()
+print("play")
 time.sleep(1)
 duration = player.get_length()
 print("duration : "+str(duration))
+root = tk.Tk()
+root.title('Youtube Music Player by Sonami')
+root.mainloop()
